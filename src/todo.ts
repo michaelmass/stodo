@@ -3,25 +3,30 @@ import { trimPrefix } from './string.ts'
 
 const defaultTags = ['todo', 'fixme', 'fix', 'bug', 'mark']
 const defaultComments = ['//', '#']
+const defaultGlobs = ['!.git/*']
 
 type ListTodosParams = {
   tags?: string[]
   comments?: string[]
+  globs?: string[]
 }
 
-export const searchTodos = async ({ comments = defaultComments, tags = defaultTags }: ListTodosParams = {}) => {
+export const searchTodos = async ({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs }: ListTodosParams = {}) => {
   const todoRegex = `(?:${comments.join('|')})[\\s]*(${tags.join('|')}).*$`
 
-  const cmd = new Deno.Command('rg', {
-    args: [
-      '--json',
-      '-i',
-      '--hidden',
-      '--glob',
-      '!.git/*',
-      todoRegex,
-    ],
-  });
+  const args = [
+    '--json',
+    '-i',
+    '--hidden',
+  ]
+
+  for (const glob of globs) {
+    args.push('--glob', glob)
+  }
+
+  args.push(todoRegex)
+
+  const cmd = new Deno.Command('rg', { args });
 
   const { stdout, stderr } = await cmd.output()
 

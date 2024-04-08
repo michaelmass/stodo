@@ -1,17 +1,26 @@
 import { formatResults } from './ripgrep.ts'
 import { trimPrefix } from './string.ts'
 
-const defaultTags = ['todo', 'fixme', 'fix', 'bug', 'mark']
-const defaultComments = ['//', '#']
-const defaultGlobs = ['!.git/*']
+export const defaultTags = ['todo', 'fixme', 'fix', 'bug', 'mark']
+export const defaultComments = ['//', '#']
+export const defaultGlobs = ['!.git/*']
 
-type ListTodosParams = {
+export type SearchTodosParams = {
   tags?: string[]
   comments?: string[]
   globs?: string[]
 }
 
-export const searchTodos = async ({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs }: ListTodosParams = {}) => {
+type SearchTodosResult = {
+  path: string
+  line_number: number
+  line: string
+  tag: string
+  comment?: string
+  subject?: string
+}
+
+export const searchTodos = async ({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs }: SearchTodosParams = {}): Promise<SearchTodosResult[] | undefined> => {
   const todoRegex = `(?:${comments.join('|')})[\\s]*(${tags.join('|')}).*$`
 
   const args = [
@@ -66,7 +75,7 @@ export const searchTodos = async ({ comments = defaultComments, tags = defaultTa
       line_number: result.line_number,
       line: result.lines.text,
       tag,
-      comment: comment ? comment : undefined,
+      comment: (comment.startsWith(':') ? comment.substring(1).trim() : comment) || undefined,
       subject,
     }
   })

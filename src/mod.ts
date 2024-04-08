@@ -1,1 +1,1 @@
-export { searchTodos } from "./todo.ts";
+export * from "./todo.ts";

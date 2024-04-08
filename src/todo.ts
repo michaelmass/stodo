@@ -9,7 +9,7 @@ type ListTodosParams = {
   comments?: string[]
 }
 
-export const listTodos = async ({ comments = defaultComments, tags = defaultTags }: ListTodosParams = {}) => {
+export const searchTodos = async ({ comments = defaultComments, tags = defaultTags }: ListTodosParams = {}) => {
   const todoRegex = `(?:${comments.join('|')})[\\s]*(${tags.join('|')}).*$`
 
   const cmd = new Deno.Command('rg', {

@@ -1,5 +1,8 @@
 {
   "name": "@michaelmass/stodo",
-  "version": "0.1.0",
-  "exports": "./src/mod.ts"
+  "version": "0.1.1",
+  "exports": {
+    ".": "./src/mod.ts",
+    "./cli": "./src/cli.ts"
+  }
 }

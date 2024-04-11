@@ -3,6 +3,7 @@ import { stringify as stringifyCsv } from 'jsr:@std/csv@0.221.0'
 import { cyan, bold } from 'jsr:@std/fmt@0.221.0/colors'
 import type { SearchResult } from './todo.ts'
 
+/** The list of formats available to format the results of the search */
 export const formats = ['json', 'jsonl', 'yaml', 'csv', 'md', 'markdown', 'pretty'] as const
 
 type Format = (typeof formats)[number]
@@ -25,7 +26,7 @@ const formatFuncMap: { [key in Format]: (data: SearchResult[]) => string } = {
 }
 
 /** This function formats the result of a todo search with a specific format */
-export const formatResults = (data: SearchResult[], format: Format): string => {
+export function formatResults(data: SearchResult[], format: Format): string {
   const formatFunc = formatFuncMap[format]
 
   if (!formatFunc) {

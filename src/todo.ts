@@ -1,8 +1,13 @@
 import { formatResults } from './ripgrep.ts'
 import { trimPrefix } from './string.ts'
 
+/* default values for the tags parameter */
 export const defaultTags = ['todo', 'fixme', 'fix', 'bug', 'mark']
+
+/* default values for the comments parameter */
 export const defaultComments = ['//', '#']
+
+/* default values for the globs parameter */
 export const defaultGlobs = ['!.git/*']
 
 export type SearchParams = {
@@ -29,7 +34,7 @@ export type SearchResult = {
  * @param dir - The directory to search in
  * @returns The list of todos found
  */
-export const search = async ({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs, dir = '.' }: SearchParams = {}): Promise<SearchResult[]> => {
+export async function search({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs, dir = '.' }: SearchParams = {}): Promise<SearchResult[]> {
   const todoRegex = `(?:${comments.join('|')})[\\s]*(${tags.join('|')}).*$`
 
   const args = ['--json', '-i', '--hidden']

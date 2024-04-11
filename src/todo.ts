@@ -5,14 +5,14 @@ export const defaultTags = ['todo', 'fixme', 'fix', 'bug', 'mark']
 export const defaultComments = ['//', '#']
 export const defaultGlobs = ['!.git/*']
 
-export type SearchTodosParams = {
+export type SearchParams = {
   tags?: string[]
   comments?: string[]
   globs?: string[]
   dir?: string
 }
 
-export type SearchTodosResult = {
+export type SearchResult = {
   path: string
   line_number: number
   line: string
@@ -21,7 +21,7 @@ export type SearchTodosResult = {
   subject?: string
 }
 
-export const searchTodos = async ({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs, dir = '.' }: SearchTodosParams = {}): Promise<SearchTodosResult[]> => {
+export const search = async ({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs, dir = '.' }: SearchParams = {}): Promise<SearchResult[]> => {
   const todoRegex = `(?:${comments.join('|')})[\\s]*(${tags.join('|')}).*$`
 
   const args = ['--json', '-i', '--hidden']

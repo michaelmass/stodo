@@ -1,7 +1,7 @@
 import { Command, EnumType } from 'jsr:@cliffy/command@1.0.0-rc.4'
-import { searchTodos } from './todo.ts'
+import { search } from './todo.ts'
 import { formats } from './format.ts'
-import { formatOutput } from './format.ts'
+import { formatResults } from './format.ts'
 
 const formatType = new EnumType(formats)
 
@@ -17,8 +17,8 @@ await new Command()
   .option('-g, --globs <globs:string>', 'Globs to include or exclude files', { collect: true })
   .option('-c, --comments <comments:string>', 'Comments string to look for', { collect: true })
   .action(async options => {
-    const results = await searchTodos(options)
-    const output = formatOutput(results, options.format)
+    const results = await search(options)
+    const output = formatResults(results, options.format)
     // biome-ignore lint/suspicious/noConsoleLog: This is the output of the command
     console.log(output)
   })

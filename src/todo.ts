@@ -9,9 +9,10 @@ export type SearchTodosParams = {
   tags?: string[]
   comments?: string[]
   globs?: string[]
+  dir?: string
 }
 
-type SearchTodosResult = {
+export type SearchTodosResult = {
   path: string
   line_number: number
   line: string
@@ -20,7 +21,7 @@ type SearchTodosResult = {
   subject?: string
 }
 
-export const searchTodos = async ({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs }: SearchTodosParams = {}): Promise<SearchTodosResult[] | undefined> => {
+export const searchTodos = async ({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs, dir = '.' }: SearchTodosParams = {}): Promise<SearchTodosResult[]> => {
   const todoRegex = `(?:${comments.join('|')})[\\s]*(${tags.join('|')}).*$`
 
   const args = [
@@ -35,15 +36,14 @@ export const searchTodos = async ({ comments = defaultComments, tags = defaultTa
 
   args.push(todoRegex)
 
-  const cmd = new Deno.Command('rg', { args });
+  const cmd = new Deno.Command('rg', { args, cwd: dir });
 
   const { stdout, stderr } = await cmd.output()
 
   const err = new TextDecoder().decode(stderr)
 
   if (err) {
-    console.error(err)
-    return
+    throw err
   }
 
   const out = new TextDecoder().decode(stdout)

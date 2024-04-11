@@ -21,6 +21,14 @@ export type SearchResult = {
   subject?: string
 }
 
+/**
+ * This function searches for todos in a directory
+ * @param comments - The comments format to look for
+ * @param tags - The tags to look for
+ * @param globs - The globs to include or exclude files
+ * @param dir - The directory to search in
+ * @returns The list of todos found
+ */
 export const search = async ({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs, dir = '.' }: SearchParams = {}): Promise<SearchResult[]> => {
   const todoRegex = `(?:${comments.join('|')})[\\s]*(${tags.join('|')}).*$`
 

@@ -24,6 +24,7 @@ const formatFuncMap: { [key in Format]: (data: SearchResult[]) => string } = {
   pretty: resultsToPretty,
 }
 
+/** This function formats the result of a todo search with a specific format */
 export const formatResults = (data: SearchResult[], format: Format): string => {
   const formatFunc = formatFuncMap[format]
 

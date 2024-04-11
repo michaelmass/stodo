@@ -1,6 +1,8 @@
 # stodo
 > Cli & package to list all your todos in a project
 
+[![JSR](https://jsr.io/badges/@michaelmass/stodo)](https://jsr.io/@michaelmass/stodo)
+
 ## Requirements
 
 You need to have the following installed on your system

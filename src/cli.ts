@@ -1,4 +1,4 @@
-import { Command, EnumType } from 'https://deno.land/x/cliffy@v1.0.0-rc.4/command/mod.ts'
+import { Command, EnumType } from 'jsr:@cliffy/command@1.0.0-rc.4'
 import { searchTodos } from './todo.ts'
 import { formats } from './format.ts'
 import { formatOutput } from './format.ts'

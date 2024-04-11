@@ -1,6 +1,6 @@
-import { stringify as stringifyYaml } from 'https://deno.land/std@0.221.0/yaml/mod.ts'
-import { stringify as stringifyCsv } from 'https://deno.land/std@0.221.0/csv/mod.ts'
-import { cyan, bold } from 'https://deno.land/std@0.200.0/fmt/colors.ts'
+import { stringify as stringifyYaml } from 'jsr:@std/yaml@0.221.0'
+import { stringify as stringifyCsv } from 'jsr:@std/csv@0.221.0'
+import { cyan, bold } from 'jsr:@std/fmt@0.221.0/colors'
 import type { SearchTodosResult } from './todo.ts'
 
 export const formats = ['json', 'jsonl', 'yaml', 'csv', 'md', 'markdown', 'pretty'] as const

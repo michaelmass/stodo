@@ -13,11 +13,11 @@ const prettyFormatPriority = (priority?: PriorityMarker): string => {
     return ''
   }
 
-  if (priority.prioriy >= 10) {
+  if (priority.priority >= 10) {
     return red(priority.name)
   }
 
-  if (priority.prioriy >= 5) {
+  if (priority.priority >= 5) {
     return yellow(priority.name)
   }
 

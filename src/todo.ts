@@ -15,17 +15,17 @@ export const defaultPriorityMarkers = [
   {
     name: 'high',
     marker: '!',
-    prioriy: 10,
+    priority: 10,
   },
   {
     name: 'medium',
     marker: '?',
-    prioriy: 5,
+    priority: 5,
   },
   {
     name: 'low',
     marker: '',
-    prioriy: 0,
+    priority: 0,
   },
 ] as const satisfies PriorityMarker[]
 
@@ -33,7 +33,7 @@ export const defaultPriorityMarkers = [
 export type PriorityMarker = {
   name: string
   marker: string
-  prioriy: number
+  priority: number
 }
 
 /** type of the search function parameters */

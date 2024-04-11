@@ -7,7 +7,7 @@ const formatType = new EnumType(formats)
 
 await new Command()
   .name('stodo')
-  .version('0.1.2')
+  .version('0.1.3')
   .description('Command line to list all todos in a folder')
   .command('search', 'search the for todos in the folder')
   .type('format', formatType)

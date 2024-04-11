@@ -1,15 +1,16 @@
 import { formatResults } from './ripgrep.ts'
 import { trimPrefix } from './string.ts'
 
-/* default values for the tags parameter */
+/** default values for the tags parameter */
 export const defaultTags = ['todo', 'fixme', 'fix', 'bug', 'mark']
 
-/* default values for the comments parameter */
+/** default values for the comments parameter */
 export const defaultComments = ['//', '#']
 
-/* default values for the globs parameter */
+/** default values for the globs parameter */
 export const defaultGlobs = ['!.git/*']
 
+/** type of the search function parameters */
 export type SearchParams = {
   tags?: string[]
   comments?: string[]
@@ -17,6 +18,7 @@ export type SearchParams = {
   dir?: string
 }
 
+/** type of the search function result */
 export type SearchResult = {
   path: string
   line_number: number

@@ -24,13 +24,28 @@ const prettyFormatPriority = (priority?: PriorityMarker): string => {
   return cyan(priority.name)
 }
 
+const columns = [['path'], ['line_number'], ['line'], ['tag'], ['comment'], ['subject'], ['priority', 'name'], ['priority', 'marker'], ['priority', 'priority']]
+
 const resultsToJson = (results: SearchResult[]): string => JSON.stringify(results, null, 2)
 const resultsToJsonl = (results: SearchResult[]): string => results.map(value => JSON.stringify(value)).join('\n')
-const resultsToYaml = (results: SearchResult[]): string => stringifyYaml(results) // TODO! fix yaml
-const resultsToCsv = (results: SearchResult[]): string => stringifyCsv(results) // TODO! fix csv
+const resultsToYaml = (results: SearchResult[]): string => stringifyYaml(JSON.parse(JSON.stringify(results)))
+const resultsToCsv = (results: SearchResult[]): string => stringifyCsv(results, { columns, headers: false })
 const resultsToMarkdown = (results: SearchResult[]): string =>
-  results.map(result => `- ${result.tag.toUpperCase()}${result.subject ? `(${result.subject})` : ''}: ${result.comment} [${result.path}#L${result.line_number}](${result.path}#L${result.line_number}) ${result.priority ? `[${result.priority.name}]` : ''}`).join('\n')
-const resultsToPretty = (results: SearchResult[]): string => results.map(result => `${cyan(result.tag.toUpperCase())}${result.subject ? ` (${bold(result.subject)})` : ''} ${result.comment} ${result.path}#${result.line_number} ${prettyFormatPriority(result.priority)}`).join('\n')
+  results
+    .map(
+      result =>
+        `- ${result.tag.toUpperCase()}${result.subject ? `(${result.subject})` : ''}: ${result.comment} [${result.path}#L${result.line_number}](${result.path}#L${result.line_number}) ${
+          result.priority ? `[${result.priority.name}]` : ''
+        }`,
+    )
+    .join('\n')
+const resultsToPretty = (results: SearchResult[]): string =>
+  results
+    .map(
+      result =>
+        `${cyan(result.tag.toUpperCase())}${result.subject ? ` (${bold(result.subject)})` : ''} ${result.comment} ${result.path}#${result.line_number} ${prettyFormatPriority(result.priority)}`,
+    )
+    .join('\n')
 
 const formatFuncMap: { [key in Format]: (data: SearchResult[]) => string } = {
   json: resultsToJson,

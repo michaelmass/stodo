@@ -31,6 +31,7 @@ await new Command()
     },
   })
   .option('-e, --exit-code', 'Exit with a non-zero code if there are todos found', { default: false })
+  .option('--git-blame', 'Run git blame on the todos found', { default: true })
   .action(async options => {
     const results = await search(options)
     const output = formatResults(results, options.format)

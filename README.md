@@ -27,7 +27,25 @@ const todos = await search({
   tags: ['todo', 'fixme', 'fix', 'bug', 'mark'],
   comments: ['//', '#'],
   globs: ['!.git/*'],
-  dir: 'path/to/dir'
+  dir: 'path/to/dir',
+  priorities: [
+    {
+      name: 'high',
+      marker: '!',
+      priority: 10,
+    },
+    {
+      name: 'medium',
+      marker: '?',
+      priority: 5,
+    },
+    {
+      name: 'low',
+      marker: '',
+      priority: 0,
+    },
+  ],
+  gitBlame: true
 })
 
 console.log(todos)
@@ -39,6 +57,11 @@ console.log(todos)
 - `comments`: Array of comment types to search for
 - `globs`: Array of globs to ignore or include
 - `dir`: Directory to search in
+- `priorities`: Array of priorities to add to todos
+  - `name`: Name of the priority
+  - `marker`: Marker to search for
+  - `priority`: Priority value (> 10 is high, < 5 is low, else medium)
+- `gitBlame`: Boolean to enable git blame
 
 ## License
 

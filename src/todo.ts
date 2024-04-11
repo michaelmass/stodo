@@ -24,11 +24,7 @@ export type SearchTodosResult = {
 export const searchTodos = async ({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs, dir = '.' }: SearchTodosParams = {}): Promise<SearchTodosResult[]> => {
   const todoRegex = `(?:${comments.join('|')})[\\s]*(${tags.join('|')}).*$`
 
-  const args = [
-    '--json',
-    '-i',
-    '--hidden',
-  ]
+  const args = ['--json', '-i', '--hidden']
 
   for (const glob of globs) {
     args.push('--glob', glob)
@@ -36,7 +32,7 @@ export const searchTodos = async ({ comments = defaultComments, tags = defaultTa
 
   args.push(todoRegex)
 
-  const cmd = new Deno.Command('rg', { args, cwd: dir });
+  const cmd = new Deno.Command('rg', { args, cwd: dir })
 
   const { stdout, stderr } = await cmd.output()
 
@@ -50,13 +46,13 @@ export const searchTodos = async ({ comments = defaultComments, tags = defaultTa
 
   const results = formatResults(out)
 
-  return results.map((result) => {
+  return results.map(result => {
     const rawText = (result.submatches?.[0]?.match?.text ?? '').trim()
 
     const text = comments.reduce((acc, comment) => trimPrefix(acc, comment), rawText).trim()
     const lowercaseText = text.toLowerCase()
 
-    const tag = tags.find((tag) => lowercaseText.startsWith(tag))
+    const tag = tags.find(tag => lowercaseText.startsWith(tag))
 
     if (!tag) {
       throw new Error(`Unable to find tag in line: ${text}`)

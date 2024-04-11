@@ -9,13 +9,13 @@ import { Command, EnumType } from 'jsr:@cliffy/command@1.0.0-rc.4'
 import { search } from './todo.ts'
 import { formats } from './format.ts'
 import { formatResults } from './format.ts'
-import { version } from '../deno.json' with { type: 'json' }
+import data from '../deno.json' with { type: 'json' }
 
 const formatType = new EnumType(formats)
 
 await new Command()
   .name('stodo')
-  .version(version)
+  .version(data.version)
   .description('Command line to list all todos in a folder')
   .command('search', 'search the for todos in the folder')
   .type('format', formatType)

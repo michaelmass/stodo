@@ -2,7 +2,7 @@ import { formatResults } from './ripgrep.ts'
 import { trimPrefix } from './string.ts'
 
 /** default values for the tags parameter */
-export const defaultTags = ['todo', 'fixme', 'fix', 'bug', 'mark']
+export const defaultTags = ['todo', 'fixme', 'fix', 'bug', 'mark', 'note']
 
 /** default values for the comments parameter */
 export const defaultComments = ['//', '#']
@@ -10,12 +10,39 @@ export const defaultComments = ['//', '#']
 /** default values for the globs parameter */
 export const defaultGlobs = ['!.git/*']
 
+/** default values for the priority markers */
+export const defaultPriorityMarkers = [
+  {
+    name: 'high',
+    marker: '!',
+    prioriy: 10,
+  },
+  {
+    name: 'medium',
+    marker: '?',
+    prioriy: 5,
+  },
+  {
+    name: 'low',
+    marker: '',
+    prioriy: 0,
+  },
+] as const satisfies PriorityMarker[]
+
+/** type of the priority marker */
+export type PriorityMarker = {
+  name: string
+  marker: string
+  prioriy: number
+}
+
 /** type of the search function parameters */
 export type SearchParams = {
   tags?: string[]
   comments?: string[]
   globs?: string[]
   dir?: string
+  priorities?: PriorityMarker[]
 }
 
 /** type of the search function result */
@@ -26,6 +53,7 @@ export type SearchResult = {
   tag: string
   comment?: string
   subject?: string
+  priority?: PriorityMarker
 }
 
 /**
@@ -34,9 +62,10 @@ export type SearchResult = {
  * @param tags - The tags to look for
  * @param globs - The globs to include or exclude files
  * @param dir - The directory to search in
+ * @param priorities - The priority markers to use
  * @returns The list of todos found
  */
-export async function search({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs, dir = '.' }: SearchParams = {}): Promise<SearchResult[]> {
+export async function search({ comments = defaultComments, tags = defaultTags, globs = defaultGlobs, priorities = defaultPriorityMarkers, dir = '.' }: SearchParams = {}): Promise<SearchResult[]> {
   const todoRegex = `(?:${comments.join('|')})[\\s]*(${tags.join('|')}).*$`
 
   const args = ['--json', '-i', '--hidden']
@@ -75,11 +104,15 @@ export async function search({ comments = defaultComments, tags = defaultTags, g
 
     const textWithoutTag = text.substring(tag.length).trim()
 
-    const parentEndIndex = textWithoutTag.indexOf(')')
-    const asSubject = textWithoutTag.startsWith('(') && parentEndIndex !== -1
+    const priority = priorities.find(priority => textWithoutTag.startsWith(priority.marker))
 
-    const subject = asSubject ? textWithoutTag.substring(1, parentEndIndex).trim() : undefined
-    const comment = asSubject ? textWithoutTag.substring(parentEndIndex + 1).trim() : textWithoutTag
+    const textWithoutPriority = priority ? textWithoutTag.substring(priority.marker.length).trim() : textWithoutTag
+
+    const parentEndIndex = textWithoutPriority.indexOf(')')
+    const asSubject = textWithoutPriority.startsWith('(') && parentEndIndex !== -1
+
+    const subject = asSubject ? textWithoutPriority.substring(1, parentEndIndex).trim() : undefined
+    const comment = asSubject ? textWithoutPriority.substring(parentEndIndex + 1).trim() : textWithoutPriority
 
     return {
       path: result.path.text,
@@ -88,6 +121,7 @@ export async function search({ comments = defaultComments, tags = defaultTags, g
       tag,
       comment: (comment.startsWith(':') ? comment.substring(1).trim() : comment) || undefined,
       subject,
+      priority,
     }
   })
 }

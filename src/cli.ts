@@ -5,7 +5,7 @@
  *
  */
 import { Command, EnumType } from 'jsr:@cliffy/command@1.0.0-rc.4'
-import { type PriorityMarker, search } from './todo.ts'
+import { type PriorityMarker, search, type SearchResult, parseSearchResults } from './todo.ts'
 import { formats } from './format.ts'
 import { formatResults } from './format.ts'
 import data from '../deno.json' with { type: 'json' }
@@ -33,25 +33,37 @@ await new Command()
   .option('-e, --exit-code', 'Exit with a non-zero code if there are todos found', { default: false })
   .option('--git-blame', 'Run git blame on the todos found', { default: true })
   .action(async options => {
-    if (options.jq && options.format !== 'json') {
-      throw new Error('JQ can only be used with the JSON format')
-    }
-
     const results = await search(options)
 
-    const output = options.jq ? await runJq({ filter: options.jq, json: results }) : formatResults(results, options.format)
+    const { output, count } = await getOutput(results, options)
 
     // biome-ignore lint/suspicious/noConsoleLog: This is the output of the command
     console.log(output)
 
-    const count = options.jq ? countJqResults(output) : results.length
-
     if (options.exitCode && count > 0) {
-      // tODO test
       Deno.exit(1)
     }
   })
   .parse(Deno.args)
+
+async function getOutput(results: SearchResult[], { format, jq }: { format: (typeof formats)[number]; jq?: string }): Promise<{ output: string; count: number }> {
+  if (jq) {
+    const jqOutput = await runJq({ filter: jq, json: results })
+
+    if (format === 'json') {
+      const count = countJqResults(jqOutput)
+      return { output: jqOutput, count }
+    }
+
+    const jqResults = parseSearchResults(JSON.parse(jqOutput))
+
+    return { output: formatResults(jqResults, format), count: jqResults.length }
+  }
+
+  const output = formatResults(results, format)
+
+  return { output, count: results.length }
+}
 
 function countJqResults(results: string): number {
   const data: unknown = JSON.parse(results)

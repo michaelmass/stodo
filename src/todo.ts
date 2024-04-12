@@ -12,7 +12,7 @@ export const defaultComments = ['//', '#']
 export const defaultGlobs = ['!.git/*']
 
 /** default values for the priority markers */
-export const defaultPriorityMarkers = [
+export const defaultPriorityMarkers: PriorityMarker[] = [
   {
     name: 'critical',
     marker: '!!',
@@ -33,7 +33,7 @@ export const defaultPriorityMarkers = [
     marker: '',
     value: 0,
   },
-] as const satisfies PriorityMarker[]
+]
 
 /** type of the priority marker */
 export type PriorityMarker = {

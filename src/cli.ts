@@ -1,3 +1,4 @@
+import data from '../deno.json' with { type: 'json' }
 /**
  * @module
  *
@@ -5,11 +6,10 @@
  *
  */
 import { Command, EnumType } from './deps.ts'
-import { type PriorityMarker, search, type SearchResult, parseSearchResults } from './todo.ts'
 import { formats } from './format.ts'
 import { formatResults } from './format.ts'
-import data from '../deno.json' with { type: 'json' }
 import { runJq } from './jq.ts'
+import { type PriorityMarker, type SearchResult, parseSearchResults, search } from './todo.ts'
 
 await new Command()
   .name('stodo')

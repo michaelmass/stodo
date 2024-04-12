@@ -127,7 +127,7 @@ export const parseSearchResults = (data: unknown): SearchResult[] => {
 /**
  * This function searches for todos in a directory
  * @param comments - The comments format to look for (escape regex characters e.g. `*` -> `\\*`)
- * @param tags - The tags to look for
+ * @param tags - The tags to look for (escape regex characters e.g. `*` -> `\\*`)
  * @param globs - The globs to include or exclude files
  * @param dir - The directory to search in
  * @param priorities - The priority markers to use

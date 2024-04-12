@@ -4,12 +4,12 @@
  * This module contains the command line interface for the todo search command.
  *
  */
-import { Command, EnumType } from 'jsr:@cliffy/command@1.0.0-rc.4'
-import { type PriorityMarker, search, type SearchResult, parseSearchResults } from './todo.ts'
+import data from '../deno.json' with { type: 'json' }
+import { Command, EnumType } from './deps.ts'
 import { formats } from './format.ts'
 import { formatResults } from './format.ts'
-import data from '../deno.json' with { type: 'json' }
 import { runJq } from './jq.ts'
+import { type PriorityMarker, type SearchResult, parseSearchResults, search } from './todo.ts'
 
 await new Command()
   .name('stodo')

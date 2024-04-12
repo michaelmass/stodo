@@ -1,4 +1,4 @@
-import type { SearchResult, GitInfo } from './todo.ts'
+import type { GitInfo, SearchResult } from './todo.ts'
 
 type BlameParams = {
   dir: string

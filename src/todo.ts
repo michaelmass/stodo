@@ -111,6 +111,10 @@ const searchResultSchema = z.object({
     .optional(),
 })
 
+type SearchResultSchemaType = z.infer<typeof searchResultSchema>
+type _GuardSearchResult<X extends SearchResult> = X
+type _SearchResult = _GuardSearchResult<SearchResultSchemaType>
+
 /** This function parses unknown data into search results */
 export const parseSearchResults = (data: unknown): SearchResult[] => {
   try {

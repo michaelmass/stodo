@@ -19,7 +19,8 @@
       "jsr:@std/text@0.221": "jsr:@std/text@0.221.0",
       "jsr:@std/yaml@0.221.0": "jsr:@std/yaml@0.221.0",
       "npm:node-jq": "npm:node-jq@4.3.1",
-      "npm:simple-git": "npm:simple-git@3.24.0"
+      "npm:simple-git": "npm:simple-git@3.24.0",
+      "npm:zod@3.22.4": "npm:zod@3.22.4"
     },
     "jsr": {
       "@cliffy/command@1.0.0-rc.4": {
@@ -814,6 +815,10 @@
           "buffer-crc32": "buffer-crc32@0.2.13",
           "fd-slicer": "fd-slicer@1.1.0"
         }
+      },
+      "zod@3.22.4": {
+        "integrity": "sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==",
+        "dependencies": {}
       }
     }
   },

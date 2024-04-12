@@ -1,10 +1,10 @@
-import data from '../deno.json' with { type: 'json' }
 /**
  * @module
  *
  * This module contains the command line interface for the todo search command.
  *
  */
+import data from '../deno.json' with { type: 'json' }
 import { Command, EnumType } from './deps.ts'
 import { formats } from './format.ts'
 import { formatResults } from './format.ts'

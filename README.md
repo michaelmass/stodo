@@ -12,10 +12,10 @@ You need to have the following installed on your system
 
 ## Usage
 
-You can use the cli to search for all todos in a directory
+You can use the cli to search for all todos in a directory. The following command will search for all todos in the current directory. It will also use git blame to find the author of the todo and jq to filter the output. The command will exit with a non-zero code if there are todos found with a priority greater than 5.
 
 ```bash
-deno run --allow-run=rg jsr:@michaelmass/stodo/cli search
+deno run --allow-run=rg,git,jq jsr:@michaelmass/stodo/cli search --git-blame --exit-code --jq ".[] | select(.priority > 5)"
 ```
 
 You can also use the package to search for all todos in a directory
@@ -27,7 +27,25 @@ const todos = await search({
   tags: ['todo', 'fixme', 'fix', 'bug', 'mark'],
   comments: ['//', '#'],
   globs: ['!.git/*'],
-  dir: 'path/to/dir'
+  dir: 'path/to/dir',
+  priorities: [
+    {
+      name: 'high',
+      marker: '!',
+      priority: 10,
+    },
+    {
+      name: 'medium',
+      marker: '?',
+      priority: 5,
+    },
+    {
+      name: 'low',
+      marker: '',
+      priority: 0,
+    },
+  ],
+  gitBlame: true
 })
 
 console.log(todos)
@@ -39,6 +57,13 @@ console.log(todos)
 - `comments`: Array of comment types to search for
 - `globs`: Array of globs to ignore or include
 - `dir`: Directory to search in
+- `priorities`: Array of priorities to add to todos
+  - `name`: Name of the priority
+  - `marker`: Marker to search for
+  - `value`: Priority value (> 10 is high, < 5 is low, else medium)
+- `gitBlame`: Boolean to enable git blame
+- `jq`: Filter the output with jq
+- `exitCode`: Exit with a non-zero code if there are todos found (combined with jq to filter for priority)
 
 ## License
 

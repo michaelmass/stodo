@@ -6,7 +6,8 @@ import type { PriorityMarker, SearchResult } from './todo.ts'
 /** The list of formats available to format the results of the search */
 export const formats = ['json', 'jsonl', 'yaml', 'yml', 'csv', 'md', 'markdown', 'pretty'] as const
 
-type Format = (typeof formats)[number]
+/** type of all allowed formats */
+export type Format = (typeof formats)[number]
 
 const prettyFormatPriority = (priority?: PriorityMarker): string => {
   if (!priority) {

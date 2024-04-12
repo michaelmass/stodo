@@ -1,4 +1,4 @@
-import { z } from 'https://deno.land/x/zod@v3.22.2/mod.ts'
+import { z } from 'npm:zod@3.22.4'
 import { gitBlame } from './git.ts'
 import { formatResults } from './ripgrep.ts'
 import { trimPrefix } from './string.ts'
@@ -114,7 +114,7 @@ const searchResultSchema = z.object({
 /** This function parses unknown data into search results */
 export const parseSearchResults = (data: unknown): SearchResult[] => {
   try {
-    return searchResultSchema.array().parse(data)
+    return searchResultSchema.array().parse(data) as SearchResult[]
   } catch (error) {
     throw new Error(`Failed to parse search results: ${error}`)
   }

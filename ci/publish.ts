@@ -1,30 +1,13 @@
 import { getIDToken } from 'npm:@actions/core'
-import { fmt, lint } from 'https://raw.githubusercontent.com/michaelmass/pipelines/master/dagger/biome.ts'
 import { connect } from 'https://raw.githubusercontent.com/michaelmass/pipelines/master/dagger/dagger.ts'
-import { check, publish } from 'https://raw.githubusercontent.com/michaelmass/pipelines/master/dagger/deno.ts'
+import { publish } from 'https://raw.githubusercontent.com/michaelmass/pipelines/master/dagger/deno.ts'
+import { lint } from './util.ts'
 
 await connect(async client => {
-  const params = {
-    client,
-    dir: client.host().directory('.'),
-  }
-
-  // await lint({ client })
-  // await fmt({ client })
-  // await check({ client, entrypoints: ['src/mod.ts', 'src/cli.ts'] })
+  await lint(client)
 
   const githubToken = await getIDToken()
   const githubTokenSecret = client.setSecret('GITHUB_OIDC_TOKEN', githubToken)
 
-  // await publish({ ...params, token: githubTokenSecret })
-
-  await client
-    .container()
-    .from('denoland/deno')
-    .withDirectory('/src', client.host().directory('.'))
-    .withWorkdir('/src')
-    .withExec(['deno', 'publish', '--token', await githubTokenSecret.plaintext()], {
-      skipEntrypoint: true,
-    })
-    .sync()
+  await publish({ client, token: githubTokenSecret })
 })

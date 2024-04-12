@@ -32,19 +32,24 @@ const todos = await search({
   dir: 'path/to/dir',
   priorities: [
     {
+      name: 'urgent',
+      marker: '!!',
+      value: 10,
+    },
+    {
       name: 'high',
       marker: '!',
-      priority: 10,
+      value: 8,
     },
     {
       name: 'medium',
       marker: '?',
-      priority: 5,
+      value: 5,
     },
     {
       name: 'low',
       marker: '',
-      priority: 0,
+      value: 0,
     },
   ],
   gitBlame: true

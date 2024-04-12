@@ -9,6 +9,8 @@ You need to have the following installed on your system
 
 - [Deno](https://deno.com)
 - [Ripgrep](https://github.com/BurntSushi/ripgrep)
+- [Jq](https://jqlang.github.io/jq)
+- [Git](https://git-scm.com)
 
 ## Usage
 

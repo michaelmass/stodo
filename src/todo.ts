@@ -1,4 +1,4 @@
-import { z } from 'npm:zod@3.22.4'
+import { z } from './deps.ts'
 import { gitBlame } from './git.ts'
 import { formatResults } from './ripgrep.ts'
 import { trimPrefix } from './string.ts'

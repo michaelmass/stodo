@@ -1,6 +1,4 @@
-import { stringify as stringifyYaml } from 'jsr:@std/yaml@0.221.0'
-import { stringify as stringifyCsv } from 'jsr:@std/csv@0.221.0'
-import { cyan, bold, yellow, red } from 'jsr:@std/fmt@0.221.0/colors'
+import { bold, cyan, red, stringifyCsv, stringifyYaml, yellow } from './deps.ts'
 import type { PriorityMarker, SearchResult } from './todo.ts'
 
 /** The list of formats available to format the results of the search */

@@ -4,7 +4,7 @@
  * This module contains the command line interface for the todo search command.
  *
  */
-import { Command, EnumType } from 'jsr:@cliffy/command@1.0.0-rc.4'
+import { Command, EnumType } from './deps.ts'
 import { type PriorityMarker, search, type SearchResult, parseSearchResults } from './todo.ts'
 import { formats } from './format.ts'
 import { formatResults } from './format.ts'

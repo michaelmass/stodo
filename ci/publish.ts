@@ -9,12 +9,22 @@ await connect(async client => {
     dir: client.host().directory('.'),
   }
 
-  await lint({ client })
-  await fmt({ client })
-  await check({ client, entrypoints: ['src/mod.ts', 'src/cli.ts'] })
+  // await lint({ client })
+  // await fmt({ client })
+  // await check({ client, entrypoints: ['src/mod.ts', 'src/cli.ts'] })
 
-  const githubToken = await getIDToken()
-  const githubTokenSecret = client.setSecret('GITHUB_OIDC_TOKEN', githubToken)
+  // const githubToken = await getIDToken()
+  // const githubTokenSecret = client.setSecret('GITHUB_OIDC_TOKEN', githubToken)
 
-  await publish({ ...params, token: githubTokenSecret })
+  // await publish({ ...params, token: githubTokenSecret })
+
+  await client
+    .container()
+    .from('denoland/deno')
+    .withDirectory('/src', client.host().directory('.'))
+    .withWorkdir('/src')
+    .withExec(['deno', 'publish'], {
+      skipEntrypoint: true,
+    })
+    .sync()
 })

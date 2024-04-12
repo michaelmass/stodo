@@ -1,3 +1,4 @@
+import { z } from 'https://deno.land/x/zod@v3.22.2/mod.ts'
 import { gitBlame } from './git.ts'
 import { formatResults } from './ripgrep.ts'
 import { trimPrefix } from './string.ts'
@@ -14,14 +15,14 @@ export const defaultGlobs = ['!.git/*']
 /** default values for the priority markers */
 export const defaultPriorityMarkers: PriorityMarker[] = [
   {
-    name: 'critical',
+    name: 'urgent',
     marker: '!!',
-    value: 15,
+    value: 10,
   },
   {
     name: 'high',
     marker: '!',
-    value: 10,
+    value: 8,
   },
   {
     name: 'medium',
@@ -77,6 +78,46 @@ export type SearchResult = {
   subject?: string
   priority?: PriorityMarker
   git?: GitInfo
+}
+
+const searchResultSchema = z.object({
+  path: z.string(),
+  line_number: z.number(),
+  line: z.string(),
+  tag: z.string(),
+  comment: z.string().optional(),
+  subject: z.string().optional(),
+  priority: z
+    .object({
+      name: z.string(),
+      marker: z.string(),
+      value: z.number(),
+    })
+    .optional(),
+  git: z
+    .object({
+      message: z.string(),
+      commit: z.string(),
+      previousCommit: z.string(),
+      author: z.string(),
+      authorMail: z.string(),
+      authorTime: z.string(),
+      authorTimezone: z.string(),
+      committer: z.string(),
+      committerMail: z.string(),
+      committerTime: z.string(),
+      committerTimezone: z.string(),
+    })
+    .optional(),
+})
+
+/** This function parses unknown data into search results */
+export const parseSearchResults = (data: unknown): SearchResult[] => {
+  try {
+    return searchResultSchema.array().parse(data)
+  } catch (error) {
+    throw new Error(`Failed to parse search results: ${error}`)
+  }
 }
 
 /**

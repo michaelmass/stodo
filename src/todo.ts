@@ -7,7 +7,7 @@ import { trimPrefix } from './string.ts'
 export const defaultTags = ['todo', 'fixme', 'fix', 'bug', 'mark', 'note']
 
 /** default values for the comments parameter */
-export const defaultComments = ['//', '#']
+export const defaultComments = ['//', '#', '<!--', '/\\*', '/\\*\\*', '\\*']
 
 /** default values for the globs parameter */
 export const defaultGlobs = ['!.git/*']
@@ -126,7 +126,7 @@ export const parseSearchResults = (data: unknown): SearchResult[] => {
 
 /**
  * This function searches for todos in a directory
- * @param comments - The comments format to look for
+ * @param comments - The comments format to look for (escape regex characters e.g. `*` -> `\\*`)
  * @param tags - The tags to look for
  * @param globs - The globs to include or exclude files
  * @param dir - The directory to search in
@@ -169,7 +169,7 @@ export async function search({
     .map(result => {
       const rawText = (result.submatches?.[0]?.match?.text ?? '').trim()
 
-      const text = comments.reduce((acc, comment) => trimPrefix(acc, comment), rawText).trim()
+      const text = comments.reduce((acc, comment) => trimPrefix(acc, comment.replaceAll('\\', '')), rawText).trim()
       const lowercaseText = text.toLowerCase()
 
       const tag = tags.find(tag => lowercaseText.startsWith(tag))

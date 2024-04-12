@@ -5,5 +5,8 @@
   "exports": {
     ".": "./src/mod.ts",
     "./cli": "./src/cli.ts"
+  },
+  "publish": {
+    "exclude": ["lefthook.yml", "biome.json", "LICENSE"]
   }
 }

@@ -3,6 +3,8 @@ import { publish } from 'https://raw.githubusercontent.com/michaelmass/pipelines
 import { lint } from './util.ts'
 
 await connect(async client => {
-  await lint(client)
-  await publish({ client })
+  const dir = client.host().directory('.')
+
+  await lint({ client, dir })
+  await publish({ client, dir })
 })

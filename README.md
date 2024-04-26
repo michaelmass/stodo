@@ -58,6 +58,12 @@ const todos = await search({
 console.log(todos)
 ```
 
+Docker is also supported
+
+```bash
+docker run -it -v path/to/folder:/src michaelmass/stodo search --format pretty -d /src # TODO! Test this command
+```
+
 ## Options
 
 - `tags`: Array of tags to search for

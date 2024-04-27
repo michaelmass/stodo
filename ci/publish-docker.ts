@@ -8,13 +8,13 @@ await connect(async client => {
 
   const dockerTokenSecret = await infisical.get({
     name: 'TOKEN',
-    secretPath: 'docker',
+    secretPath: 'accounts/docker',
     secretName: 'dockerToken',
   })
 
   const dockerUsernameSecret = await infisical.get({
     name: 'USERNAME',
-    secretPath: 'docker',
+    secretPath: 'accounts/docker',
     secretName: 'dockerUsername',
   })
 

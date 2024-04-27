@@ -1,0 +1,17 @@
+name: Docker Publish
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - "master"
+    tags:
+      - v*
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: michaelmass/actions/dagger@master
+        with:
+          source: ci/publish-docker.ts
+          infisical-token: ${{ secrets.INFISICAL_TOKEN }}
+          infisical-workspace-id: ${{ secrets.INFISICAL_WORKSPACE_ID }}

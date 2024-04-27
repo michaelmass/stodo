@@ -1,4 +1,4 @@
-FROM denoland/deno
+FROM denoland/deno:1.42.4
 
 RUN apt-get update && apt-get install -y ripgrep jq git
 

@@ -27,7 +27,7 @@ await connect(async client => {
     container,
     password: dockerTokenSecret,
     username,
-    repository: `${username}/${name}`,
+    repository: `${username}/stodo`,
     tags: getTags(context.ref),
   })
 })
